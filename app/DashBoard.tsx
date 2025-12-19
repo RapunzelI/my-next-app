@@ -322,76 +322,87 @@ const EmployeeDashboard = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-8 py-10">
-        <div className="grid grid-cols-1 md:grid-cols-6 gap-5 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5 mb-10">
           <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-500 text-xs font-light uppercase tracking-wider mb-3">Employees</p>
-                <p className="text-4xl font-extralight text-[#e65c00]">{stats.totalEmployees}</p>
+            <div className="flex flex-col h-full">
+              <div className="flex items-start justify-between mb-4">
+                <p className="text-gray-500 text-xs font-light uppercase tracking-wider">Employees</p>
+                <div className="bg-[#e65c00]/10 rounded-full p-3">
+                  <Users className="w-6 h-6 text-[#e65c00]" />
+                </div>
               </div>
-              <div className="bg-[#e65c00]/10 rounded-full p-3">
-                <Users className="w-7 h-7 text-[#e65c00]" />
+              <div className="mt-auto">
+                <p className="text-3xl font-extralight text-[#e65c00] mb-1">{stats.totalEmployees}</p>
               </div>
             </div>
           </div>
           
           <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-500 text-xs font-light uppercase tracking-wider mb-3">Total Tasks</p>
-                <p className="text-4xl font-extralight text-[#2c2c2c]">{stats.totalAssignments}</p>
+            <div className="flex flex-col h-full">
+              <div className="flex items-start justify-between mb-4">
+                <p className="text-gray-500 text-xs font-light uppercase tracking-wider">Total Tasks</p>
+                <div className="bg-gray-100 rounded-full p-3">
+                  <Briefcase className="w-6 h-6 text-gray-600" />
+                </div>
               </div>
-              <div className="bg-gray-100 rounded-full p-3">
-                <Briefcase className="w-7 h-7 text-gray-600" />
-              </div>
-            </div>
-          </div>
-          
-          <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-500 text-xs font-light uppercase tracking-wider mb-3">Not Started</p>
-                <p className="text-4xl font-extralight text-gray-600">{stats.notStarted}</p>
-              </div>
-              <div className="bg-gray-100 rounded-full p-3">
-                <AlertCircle className="w-7 h-7 text-gray-500" />
+              <div className="mt-auto">
+                <p className="text-3xl font-extralight text-[#2c2c2c] mb-1">{stats.totalAssignments}</p>
               </div>
             </div>
           </div>
           
           <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-500 text-xs font-light uppercase tracking-wider mb-3">In Progress</p>
-                <p className="text-4xl font-extralight text-[#5b7c99]">{stats.inProgressTotalProgress}%</p>
-                <p className="text-xs text-gray-400 mt-1 font-light">{stats.inProgress} overall</p>
+            <div className="flex flex-col h-full">
+              <div className="flex items-start justify-between mb-4">
+                <p className="text-gray-500 text-xs font-light uppercase tracking-wider">Not Started</p>
+                <div className="bg-gray-100 rounded-full p-3">
+                  <AlertCircle className="w-6 h-6 text-gray-500" />
+                </div>
               </div>
-              <div className="bg-[#5b7c99]/10 rounded-full p-3">
-                <Clock className="w-7 h-7 text-[#5b7c99]" />
-              </div>
-            </div>
-          </div>
-          
-          <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-500 text-xs font-light uppercase tracking-wider mb-3">Finished</p>
-                <p className="text-4xl font-extralight text-green-600">{stats.finished}</p>
-              </div>
-              <div className="bg-green-50 rounded-full p-3">
-                <CheckCircle className="w-7 h-7 text-green-600" />
+              <div className="mt-auto">
+                <p className="text-3xl font-extralight text-gray-600 mb-1">{stats.notStarted}</p>
               </div>
             </div>
           </div>
           
           <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-500 text-xs font-light uppercase tracking-wider mb-3">Delayed</p>
-                <p className="text-4xl font-extralight text-red-600">{stats.delayed}</p>
+            <div className="flex flex-col h-full">
+              <div className="flex items-start justify-between mb-4">
+                <p className="text-gray-500 text-xs font-light uppercase tracking-wider">In Progress</p>
+                <div className="bg-[#5b7c99]/10 rounded-full p-3">
+                  <Clock className="w-6 h-6 text-[#5b7c99]" />
+                </div>
               </div>
-              <div className="bg-red-50 rounded-full p-3">
-                <XCircle className="w-7 h-7 text-red-600" />
+              <div className="mt-auto">
+                <p className="text-3xl font-extralight text-[#5b7c99] mb-1">{stats.inProgressTotalProgress}%</p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100">
+            <div className="flex flex-col h-full">
+              <div className="flex items-start justify-between mb-4">
+                <p className="text-gray-500 text-xs font-light uppercase tracking-wider">Finished</p>
+                <div className="bg-green-50 rounded-full p-3">
+                  <CheckCircle className="w-6 h-6 text-green-600" />
+                </div>
+              </div>
+              <div className="mt-auto">
+                <p className="text-3xl font-extralight text-green-600 mb-1">{stats.finished}</p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100">
+            <div className="flex flex-col h-full">
+              <div className="flex items-start justify-between mb-4">
+                <p className="text-gray-500 text-xs font-light uppercase tracking-wider">Delayed</p>
+                <div className="bg-red-50 rounded-full p-3">
+                  <XCircle className="w-6 h-6 text-red-600" />
+                </div>
+              </div>
+              <div className="mt-auto">
+                <p className="text-3xl font-extralight text-red-600 mb-1">{stats.delayed}</p>
               </div>
             </div>
           </div>
