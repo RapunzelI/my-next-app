@@ -7,6 +7,7 @@ import { RiProgress1Line } from "react-icons/ri";
 
 const EmployeeDashboard = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [searchAssignment, setSearchAssignment] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [filterSupervisor, setFilterSupervisor] = useState('all');
   const [expandedEmployees, setExpandedEmployees] = useState<{ [key: number]: boolean }>({});
@@ -217,6 +218,26 @@ const EmployeeDashboard = () => {
     
   ]);
 
+React.useEffect(() => {
+  if (searchAssignment.trim() !== '') {
+    const employeesWithMatchingAssignments = employees.filter(emp =>
+      emp.assignments.some(assignment =>
+        assignment.title.toLowerCase().includes(searchAssignment.toLowerCase())
+      )
+    );
+    
+    const newExpandedState: { [key: number]: boolean } = {};
+    employeesWithMatchingAssignments.forEach(emp => {
+      newExpandedState[emp.id] = true;
+    });
+    
+    setExpandedEmployees(newExpandedState);
+  }
+  else {
+  setExpandedEmployees({});
+}
+}, [searchAssignment, employees]);
+
   const getStatusColor = (status: string) => {
     const colors: { [key: string]: string } = {
       'Not Started': 'bg-gray-50 text-gray-600 border-gray-200',
@@ -276,21 +297,34 @@ const EmployeeDashboard = () => {
   };
 
   const filteredEmployees = employees.filter(employee => {
-    const matchesSearch = employee.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                     employee.position.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                     employee.department.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                     employee.assignments.some(a => a.title.toLowerCase().includes(searchTerm.toLowerCase()));
-    const matchesStatusFilter = filterStatus === 'all' || 
-                                employee.assignments.some(a => a.status === filterStatus);
-    const matchesSupervisor = filterSupervisor === 'all' || employee.supervisor === filterSupervisor;
-    return matchesSearch && matchesStatusFilter && matchesSupervisor;
-  }).sort((a, b) => {
-    if (sortOrder === 'asc') {
-      return a.name.localeCompare(b.name);
-    } else {
-      return b.name.localeCompare(a.name);
-    }
-  });
+  const matchesSearch = employee.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                   employee.position.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                   employee.department.toLowerCase().includes(searchTerm.toLowerCase());
+  const matchesStatusFilter = filterStatus === 'all' || 
+                              employee.assignments.some(a => a.status === filterStatus);
+  const matchesSupervisor = filterSupervisor === 'all' || employee.supervisor === filterSupervisor;
+  return matchesSearch && matchesStatusFilter && matchesSupervisor;
+}).sort((a, b) => {
+  // If searching assignments, prioritize employees with matching assignments
+  if (searchAssignment.trim() !== '') {
+    const aHasMatch = a.assignments.some(assignment =>
+      assignment.title.toLowerCase().includes(searchAssignment.toLowerCase())
+    );
+    const bHasMatch = b.assignments.some(assignment =>
+      assignment.title.toLowerCase().includes(searchAssignment.toLowerCase())
+    );
+    
+    if (aHasMatch && !bHasMatch) return -1;  // a ขึ้นก่อน
+    if (!aHasMatch && bHasMatch) return 1;   // b ขึ้นก่อน
+  }
+  
+  // Default sorting by name
+  if (sortOrder === 'asc') {
+    return a.name.localeCompare(b.name);
+  } else {
+    return b.name.localeCompare(a.name);
+  }
+});
 
   const stats = {
     totalEmployees: employees.length,
@@ -411,14 +445,25 @@ const EmployeeDashboard = () => {
         <div className="bg-white rounded-xl shadow-lg p-7 mb-10 border border-gray-100">
           <div className="flex flex-col gap-4">
             <div className="flex flex-col md:flex-row gap-4">
-              <div className="flex-1 relative">
+              <div className="flex-2 relative">
                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                 <input
                   suppressHydrationWarning
                   type="text"
-                  placeholder="Search by name, position, department, or assignment..."
+                  placeholder="Search by name, position or department..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-[#314555] focus:ring-2 focus:ring-[#314555]/20 transition font-light"
+                />
+              </div>
+              <div className="flex-1 relative">
+                <Briefcase className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <input
+                  suppressHydrationWarning
+                  type="text"
+                  placeholder="Search assignments..."
+                  value={searchAssignment}
+                  onChange={(e) => setSearchAssignment(e.target.value)}
                   className="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-[#314555] focus:ring-2 focus:ring-[#314555]/20 transition font-light"
                 />
               </div>
@@ -576,7 +621,7 @@ const EmployeeDashboard = () => {
             const overallProgress = calculateEmployeeProgress(employee.assignments);
             const isExpanded = expandedEmployees[employee.id] || false;
             const filteredAssignments = employee.assignments.filter(assignment =>
-              searchTerm === '' || assignment.title.toLowerCase().includes(searchTerm.toLowerCase())
+              searchAssignment === '' || assignment.title.toLowerCase().includes(searchAssignment.toLowerCase())
             );
             
             return (
@@ -783,4 +828,4 @@ const EmployeeDashboard = () => {
   );
 };
 
-export default EmployeeDashboard;
+export default EmployeeDashboard
