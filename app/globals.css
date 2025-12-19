@@ -24,3 +24,39 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Custom supervisor select dropdown */
+.custom-supervisor-select {
+  min-width: 200px;
+}
+
+.custom-supervisor-select option {
+  padding: 10px 12px;
+  font-weight: 300;
+}
+
+/* For Firefox */
+.custom-supervisor-select {
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+}
+
+/* For Chrome, Safari, Edge */
+.custom-supervisor-select::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-supervisor-select::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.custom-supervisor-select::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+  border: 2px solid #f1f1f1;
+}
+
+.custom-supervisor-select::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
